@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+	background-color: black;
+	color: white;
+	font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+	overflow-y: hidden;
+}
+
+header {
+	border-bottom: 0.1rem solid #3a3a3c;
+}
+
+#game-screen {
+	/* height: 100%; */
+	/* width: 50%;
+	margin: auto;
+	display: grid; */
+	/* grid-template-rows: 5fr 1fr; */
+	/* grid-row-gap: 300px; */
+	/* height: 100%; */
+
+	/* display: grid; */
+	/* grid-template-rows: 70% 30%; */
+	/* margin-top: 10rem; */
+}
+
+#guesses {
+	/* padding: 2rem 0rem; */
+	/* margin-bottom: 15rem; */
+	/* height: max-content; */
+
+	/* display: flex;
+	justify-content: center;
+	align-items: center; */
+
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	grid-template-rows: repeat(6, auto);
+	grid-template-columns: repeat(1, auto);
+
+	/* flex-grow: 1; */
+	/* overflow: hidden; */
+}
+
+.guess {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* padding: 0.1rem 0.1rem; */
+}
+
+.guess-letter {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+
+    /*
+    line-height: 2rem;
+	margin: 0rem 0.1rem;
+	padding: 0.4rem;
+	background-color: #3a3a3c;
+	height: 62px;
+	width: 62px; */
+	
+	font-size: 1.4rem;
+	font-weight: bold;
+	/* padding: 1rem 1rem; */
+	background-color: #3a3a3c;
+	margin: 0.15rem;
+	/* border-radius: 4px; */
+	height: 4rem;
+	width: 4rem;
+}
+
+#keyboard {
+	bottom: 0;
+
+	/* display: grid;
+	justify-content: center;
+	align-content: center; */
+	/* align-items: center;
+	justify-content: center; */
+	/* padding: 0.1rem 0.1rem; */
+	/* width: 50%;
+	margin: auto; */
+	/* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+}
+
+.keyboard-row {
+	display: flex;
+	justify-content: center;
+}
+
+.keyboard-letter {
+	padding: 1em;
+	background-color: #818384;
+	margin: 0.1rem;
+	border-radius: 4px;
+}
+
+.single-tile-letter {
+	height: 3rem;
+	width: 3rem;
+}
+
+.enter-letter {
+	height: 3rem;
+	width: 4rem;
+}
+
+.backspace-letter {
+	height: 3rem;
+	width: 6rem;
+}
