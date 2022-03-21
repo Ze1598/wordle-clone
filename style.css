@@ -2,14 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-	background-color: black;
+	background-color: #121213;
 	color: white;
 	font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 	overflow-y: hidden;
 }
 
 header {
-	border-bottom: 0.1rem solid #3a3a3c;
+	/* border-bottom: 0.1rem solid #3a3a3c; */
 }
 
 #game-screen {
@@ -43,6 +43,7 @@ header {
 
 	/* flex-grow: 1; */
 	/* overflow: hidden; */
+	max-height: 70vh;
 }
 
 .guess {
@@ -70,11 +71,13 @@ header {
 	font-size: 1.4rem;
 	font-weight: bold;
 	/* padding: 1rem 1rem; */
-	background-color: #3a3a3c;
+	/* background-color: #3a3a3c; */
+	border: 2px solid #3a3a3c;
 	margin: 0.15rem;
 	/* border-radius: 4px; */
 	height: 4rem;
 	width: 4rem;
+	text-transform: uppercase;
 }
 
 #keyboard {
@@ -102,8 +105,11 @@ header {
 .keyboard-letter {
 	padding: 1em;
 	background-color: #818384;
-	margin: 0.1rem;
-	border-radius: 4px;
+	margin: 0.2rem;
+	border-radius: 0.5rem;
+	text-transform: uppercase;
+	border: 0;
+	/* font-size: 2rem; */
 }
 
 .single-tile-letter {
@@ -119,4 +125,23 @@ header {
 .backspace-letter {
 	height: 3rem;
 	width: 6rem;
+}
+
+/* .single-tile-letter {
+	height: 6vh;
+	width: 6vw;
+}
+
+.enter-letter {
+	height: 6vh;
+	width: 6vw;
+}
+
+.backspace-letter {
+	height: 6vh;
+	width: 6vw;
+} */
+
+.capitalised-text {
+	text-transform: capitalize;
 }

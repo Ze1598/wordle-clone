@@ -6,54 +6,107 @@ const pageHeight = document.documentElement.clientHeight;
 const pageWidth = document.documentElement.clientWidth;
 const guessesArray = document.getElementsByClassName("guess");
 
+const victoryEasterEgg = new Audio("victory.mp3");
+
+greenCorrect = "#538d4e"
+yellowPresent = "#c9b458"
+greyAbsent = "#3a3a3c"
+
 // Starts at 1
 let guessNumber = 1;
 let currentGuessElement = guessesArray[guessNumber - 1];
-let attemptWord = "";
+let guessedWord = "";
+let solution = wordPool[Math.floor(Math.random()*wordPool.length)];
+console.log("Solution:", solution)
 
-// Calculate how much space is left for the guesses and keyboard
+
+// Set guesses and keyboard height dynamically
 heightSplit = 0.8;
 remainingHeight = pageHeight - header.clientHeight;
-
-// Dynamically set the guesses and keyboard height
 guesses.setAttribute("style", `height: ${Math.floor(remainingHeight * heightSplit)}px`)
 keyboard.setAttribute("style", `height: ${Math.floor(remainingHeight * (1- heightSplit))}px`)
+
 
 // Check for valid word, enough letters, increment guessNumber
 function pressEnter() {}
 
 // On keyboard key click
 function keyClicked(letter) {
-		// Attempt submitted
+		// Guess submitted
 		if (letter === "Enter") {
-			// Add logic to check for valid attempt
-			alert("Attempt submitted")
-			attemptWord = "";
+			validateGuess()
 		}
-		// Delete letter
+		// Delete (last) letter
 		else if (letter === "Backspace") {
-			if (attemptWord.length > 0) {
-				attemptWord = attemptWord.slice(0, -1);
+			if (guessedWord.length > 0) {
+				guessedWord = guessedWord.slice(0, -1);
 			}
 		}
-		// Add new çetter
-		else if (attemptWord.length < 6) {
-			attemptWord += letter;
+		// Append new letter
+		else if (guessedWord.length < 5) {
+			guessedWord += letter.toLowerCase();
 		}
-		// Max length reached
-		else {
-			alert("Too long")
-		}
-		// loop through attemptWord and update each guess cell with each letter
-		console.log(attemptWord)
+		// loop through guessedWord and update each guess cell with each letter
 		populateGuess();
 }
 
 // Display letters for the current guess on screen every time the user touches a keyboard key
 function populateGuess() {
-	// Need a mechanism to clean up letters after backspace
+	currentGuessElement = guessesArray[guessNumber - 1];
 	guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
-	for (let i=0; i < attemptWord.length; i++) {
-		guessLetterArray[i].innerText = attemptWord[i]
+	guessedLetters = guessedWord.length;
+	
+	// Draw each letter
+	for (let i = 0; i < guessedWord.length; i++) {
+		guessLetterArray[i].innerText = guessedWord[i]
+	}
+
+	// Ensure squares are empty if the guess has less than 5 letters
+	for (let i = guessedLetters; i < 5; i++) {
+		guessLetterArray[i].innerText = "";
+	}
+}
+
+function validateGuess() {
+	let guessLength = guessedWord.length;
+
+	if (guessLength < 5) {
+		alert("Too short")
+	} else if (!wordPool.includes(guessedWord)) {
+		alert("Invalid word")
+	} else {
+		// Get an array of the current guess display cells
+		currentGuessElement = guessesArray[guessNumber - 1];
+		guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
+
+		for (let i = 0; i < 5; i++) {
+			currentLetter = guessedWord[i];
+
+			if (currentLetter == solution[i]) {
+				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${greenCorrect}`);
+				guessLetterArray[i].setAttribute("style", `background-color: ${greenCorrect}`);
+			} else if (solution.includes(currentLetter)) {
+				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${yellowPresent}`);
+				guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`);
+			} else {
+				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${greyAbsent}`);
+				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
+			}
+			// guessLetterArray[i].innerText = guessedWord[i]
+		}
+
+		if ((guessNumber === 6) && (guessedWord !== solution)) {
+			alert("You lost. The solution is " + solution)
+		}
+
+		if (guessedWord == solution) {
+			if (guessNumber === 1) {
+				victoryEasterEgg.play();
+			}
+		}
+
+
+		guessedWord = "";
+		guessNumber += 1;
 	}
 }

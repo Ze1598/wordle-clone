@@ -10,7 +10,7 @@
 <body>
 
 	<header>
-		<div id="sample-header-text">header with some info about the game, and buttons for reset/new word</div>
+		<!-- <div id="sample-header-text">header with some info about the game, and buttons for reset/new word</div> -->
 	</header>
 
 	<div id="game-screen">
@@ -62,38 +62,38 @@
 		
 		<div id="keyboard">
 			<div class="keyboard-row">
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">Q</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">W</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">E</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">R</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">T</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">Y</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">U</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">I</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">O</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">P</button>
+				<button id="letter-q" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">q</button>
+				<button id="letter-w" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">w</button>
+				<button id="letter-e" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">e</button>
+				<button id="letter-r" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">r</button>
+				<button id="letter-t" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">t</button>
+				<button id="letter-y" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">y</button>
+				<button id="letter-u" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">u</button>
+				<button id="letter-i" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">i</button>
+				<button id="letter-o" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">o</button>
+				<button id="letter-p" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">p</button>
 			</div>
 			<div class="keyboard-row">
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">A</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">S</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">D</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">F</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">G</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">H</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">J</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">K</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">L</button>
+				<button id="letter-a" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">a</button>
+				<button id="letter-s" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">s</button>
+				<button id="letter-d" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">d</button>
+				<button id="letter-f" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">f</button>
+				<button id="letter-g" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">g</button>
+				<button id="letter-h" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">h</button>
+				<button id="letter-j" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">j</button>
+				<button id="letter-k" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">k</button>
+				<button id="letter-l" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">l</button>
 			</div>
 			<div class="keyboard-row">
-				<button class="keyboard-letter enter-letter" onclick="keyClicked(this.innerText)">Enter</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">Z</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">X</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">C</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">V</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">B</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">N</button>
-				<button class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">M</button>
-				<button class="keyboard-letter backspace-letter" onclick="keyClicked(this.innerText)">Backspace</button>
+				<button id="letter-enter" class="keyboard-letter enter-letter capitalised-text" onclick="keyClicked(this.innerText)">Enter</button>
+				<button id="letter-z" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">z</button>
+				<button id="letter-x" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">x</button>
+				<button id="letter-c" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">c</button>
+				<button id="letter-v" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">v</button>
+				<button id="letter-b" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">b</button>
+				<button id="letter-n" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">n</button>
+				<button id="letter-m" class="keyboard-letter single-tile-letter" onclick="keyClicked(this.innerText)">m</button>
+				<button id="letter-backspace" class="keyboard-letter backspace-letter capitalised-text" onclick="keyClicked(this.innerText)">Backspace</button>
 			</div>
 		</div>
 
