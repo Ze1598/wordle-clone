@@ -8,17 +8,24 @@ const guessesArray = document.getElementsByClassName("guess");
 
 const victoryEasterEgg = new Audio("victory.mp3");
 
-greenCorrect = "#538d4e"
-yellowPresent = "#c9b458"
-greyAbsent = "#3a3a3c"
+const greenCorrect = "#538d4e"
+const yellowPresent = "#c9b458"
+const greyAbsent = "#3a3a3c"
+const colours = [greenCorrect, yellowPresent, greyAbsent]
 
 // Starts at 1
 let guessNumber = 1;
 let currentGuessElement = guessesArray[guessNumber - 1];
 let guessedWord = "";
+let guessLetterCounts = {};
 let solution = wordPool[Math.floor(Math.random()*wordPool.length)];
-console.log("Solution:", solution)
-
+// solution = "mound"
+// solution = "pasta"
+let solutionLetterCounts = {}
+for (i = 0; i < 5; i++) {
+	// ?? is the nullish operator aka coalesce
+	solutionLetterCounts[solution[i]] = (solutionLetterCounts[solution[i]] !== undefined ?? 0) + 1
+}
 
 // Set guesses and keyboard height dynamically
 heightSplit = 0.8;
@@ -75,37 +82,59 @@ function validateGuess() {
 	} else if (!wordPool.includes(guessedWord)) {
 		alert("Invalid word")
 	} else {
+
+		// Get letter counts for the guess
+		for (i = 0; i < 5; i++) {
+			guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] !== undefined ?? 0) + 1
+		}
+
 		// Get an array of the current guess display cells
 		currentGuessElement = guessesArray[guessNumber - 1];
 		guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
 
+		seenLetters = []
+
 		for (let i = 0; i < 5; i++) {
 			currentLetter = guessedWord[i];
+			isSecondInstance = seenLetters.includes(currentLetter);
+			isMultipleInstanceNeeded = solutionLetterCounts[currentLetter] > 1;
 
 			if (currentLetter == solution[i]) {
 				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${greenCorrect}`);
 				guessLetterArray[i].setAttribute("style", `background-color: ${greenCorrect}`);
-			} else if (solution.includes(currentLetter)) {
+
+			// Only a valid letter if it is in the word and we need multiple of that word
+			// or it is in the word, we only need 1 of it and this is the first time seeing the letter
+			} else if (
+				(solution.includes(currentLetter) && isMultipleInstanceNeeded)
+				|| (solution.includes(currentLetter) && !isMultipleInstanceNeeded && !isSecondInstance)
+			) {
 				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${yellowPresent}`);
 				guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`);
+
 			} else {
-				document.getElementById(`letter-${currentLetter}`).setAttribute("style", `background-color: ${greyAbsent}`);
+				keyboardKey = document.getElementById(`letter-${currentLetter}`)
+				if (colours.includes(keyboardKey.style.color)) {
+					keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
+				}
 				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
 			}
-			// guessLetterArray[i].innerText = guessedWord[i]
+
+			seenLetters.push(currentLetter);
 		}
 
 		if ((guessNumber === 6) && (guessedWord !== solution)) {
-			alert("You lost. The solution is " + solution)
+			alert("Out of guesses. The solution is " + solution)
 		}
 
+		// Easter egg for first try win
 		if (guessedWord == solution) {
 			if (guessNumber === 1) {
 				victoryEasterEgg.play();
 			}
 		}
 
-
+		// Reset guess and increment guess count
 		guessedWord = "";
 		guessNumber += 1;
 	}
