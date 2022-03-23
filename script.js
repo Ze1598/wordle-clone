@@ -20,12 +20,19 @@ let guessedWord = "";
 let guessLetterCounts = {};
 let solution = wordPool[Math.floor(Math.random()*wordPool.length)];
 // solution = "mound"
-solution = "muddy"
+// solution = "muddy"
+
 // solution = "pasta"
+
 // solution = "snort"
 // solution = "sorry"
+
 // solution = "dwelt"
 // solution = "dwell"
+
+// solution = "stole"
+// solution = "steel"
+
 let solutionLetterCounts = {}
 for (i = 0; i < 5; i++) {
 	// ?? is the nullish operator aka coalesce
@@ -121,10 +128,11 @@ function validateGuess() {
 			} else if (!solution.includes(currentLetter)) {
 				keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
 				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
-			} else {
-				keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
-				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
-			}
+			} 
+			// else {
+			// 	keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
+			// 	guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
+			// }
 
 			// seenLetters.push(currentLetter);
 		}
@@ -139,34 +147,59 @@ function validateGuess() {
 			// isFirstInstance = guessedWord.indexOf(currentLetter, i+1) === -1;
 			isFirstInstance = !seenLetters.includes(currentLetter);
 			// So, do we only have one of this letter in the guess?
-			isMultilpleInstance = isSecondInstance || isFirstInstance;
+			isMultilpleInstance = isSecondInstance || (isFirstInstance && solution.indexOf(currentLetter, i+1) !== -1);
 			// Need more than 1 of this letter?
 			isMultipleInstanceNeeded = solutionLetterCounts[currentLetter] > 1;
 			// Keyboard key for this letter
 			keyboardKey = document.getElementById(`letter-${currentLetter}`)
 			// Other letters in the guess
 			guessOtherLetters = guessedWord.slice(0, i) + guessedWord.slice(i+1)
+			guessSquare = guessLetterArray[i];
+			
+			console.log(
+				currentLetter,
+				!guessSquare.style.backgroundColor,
+				!isMultipleInstanceNeeded,
+				!keyboardKey.style.backgroundColor,
+				keyboardKey.style.backgroundColor == yellowPresent,
+				!isSecondInstance
+			)
 
-			// If letter is used, not in the correct position, only need 1 of this letter and it's seen for the first time
-			// e.g. any letter used in the solution, but only the first instance
+			// Single instance letters that exist in the solution
 			if (
 				solution.includes(currentLetter)
-				&& (keyboardKey.style.backgroundColor !== greenCorrect)
+				&& !guessSquare.style.backgroundColor
 				&& !isMultipleInstanceNeeded
+				&& (
+					!keyboardKey.style.backgroundColor
+					|| (keyboardKey.style.backgroundColor == yellowPresent && !isSecondInstance)
+				)
+			){
+				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
+				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
+
+			// Multiple instance letters in the guess where we need just the first instance as YELLOW
+			} else if (
+				solution.includes(currentLetter)
+				&& !guessSquare.style.backgroundColor
+				&& isMultipleInstanceNeeded
 				&& isFirstInstance
 			){
 				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`)
+				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
 
-			// Or letter is used, not in the correct position, need multiple of this letter and it's the second instance
+			// Multiple instance letters in the guess where we need the second instance as YELLOW
 			} else if (
 				solution.includes(currentLetter)
-				&& (keyboardKey.style.backgroundColor !== greenCorrect)
+				&& !guessSquare.style.backgroundColor
 				&& isMultipleInstanceNeeded
 				&& isSecondInstance
 			){
-				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`)
+				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
+
+			// Otherwise leave as GREY
+			} else if (!guessSquare.style.backgroundColor) {
+				guessSquare.setAttribute("style", `background-color: ${greyAbsent}`);
 			}
 
 			seenLetters.push(currentLetter);
