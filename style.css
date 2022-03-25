@@ -1,9 +1,7 @@
 * {
-	/* box-sizing: border-box; */
 	background-color: #121213;
 	color: white;
 	font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-	/* overflow-y: hidden; */
 	margin: 0;
     padding: 0;
 }
@@ -15,14 +13,10 @@ header {
 	height: 100vh;
 	width: 100vw;
 	display: grid;
-	grid-template-rows: 3fr 1fr;
+	grid-template-rows: 4.5fr 1fr;
 }
 
 #guesses {
-	/* display: grid;
-	justify-items: center;
-	align-items: center; */
-
 	display: grid;
 	justify-items: center;
 	align-content: center;
@@ -31,7 +25,6 @@ header {
 }
 
 .guess {
-	/* display: flex; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,12 +36,12 @@ header {
     align-items: center;
     vertical-align: middle;
     box-sizing: border-box;
-	font-size: 1.4rem;
+	font-size: 3.5rem;
 	font-weight: bold;
 	border: 2px solid #3a3a3c;
-	margin: 0.15rem;
-	height: 4rem;
-	width: 4rem;
+	margin: 0.3rem;
+	height: 9rem;
+	width: 9rem;
 	text-transform: uppercase;
 }
 
@@ -63,7 +56,6 @@ header {
 	justify-content: center;
 }
 
-
 .keyboard-letter {
 	padding: 1em;
 	background-color: #818384;
@@ -71,38 +63,105 @@ header {
 	border-radius: 0.5rem;
 	text-transform: uppercase;
 	border: 0;
+	font-size: 1.6rem;
 }
 
 .single-tile-letter {
-	height: 3rem;
-	width: 3rem;
+	height: 6rem;
+	width: 5rem;
 }
 
 .enter-letter {
-	height: 3rem;
-	width: 4rem;
+	height: 6rem;
+	width: 7rem;
 }
 
 .backspace-letter {
-	height: 3rem;
-	width: 6rem;
+	height: 6rem;
+	width: 11rem;
 }
-
-/* .single-tile-letter {
-	height: 6vh;
-	width: 6vw;
-}
-
-.enter-letter {
-	height: 6vh;
-	width: 6vw;
-}
-
-.backspace-letter {
-	height: 6vh;
-	width: 6vw;
-} */
 
 .capitalised-text {
 	text-transform: capitalize;
+}
+
+
+/* for desktop */
+@media only screen and (min-width: 1000px) {
+	#game-screen {
+		height: 100vh;
+		width: 100vw;
+		display: grid;
+		grid-template-rows: 3fr 1fr;
+	}
+	
+	#guesses {
+		display: grid;
+		justify-items: center;
+		align-content: center;
+		grid-template-rows: repeat(6, auto);
+		grid-template-columns: repeat(1, auto);
+	}
+	
+	.guess {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.guess-letter {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		vertical-align: middle;
+		box-sizing: border-box;
+		font-size: 1.4rem;
+		font-weight: bold;
+		border: 2px solid #3a3a3c;
+		margin: 0.15rem;
+		height: 4rem;
+		width: 4rem;
+		text-transform: uppercase;
+	}
+	
+	#keyboard {
+		display: grid;
+		align-content: flex-end;
+		justify-content: center;
+	}
+	
+	.keyboard-row {
+		display: flex;
+		justify-content: center;
+	}
+	
+	
+	.keyboard-letter {
+		padding: 1em;
+		background-color: #818384;
+		margin: 0.2rem;
+		border-radius: 0.5rem;
+		text-transform: uppercase;
+		border: 0;
+		font-size: 1rem;
+	}
+
+	.single-tile-letter {
+		height: 3rem;
+		width: 3rem;
+	}
+	
+	.enter-letter {
+		height: 3rem;
+		width: 5rem;
+	}
+	
+	.backspace-letter {
+		height: 3rem;
+		width: 7rem;
+	}
+	
+	.capitalised-text {
+		text-transform: capitalize;
+	}
 }
