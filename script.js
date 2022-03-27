@@ -19,6 +19,9 @@ let currentGuessElement = guessesArray[guessNumber - 1];
 let guessedWord = "";
 let guessLetterCounts = {};
 let solution = wordPool[Math.floor(Math.random()*wordPool.length)];
+// Missed positions show as underscore, otherwise show guessed letter
+progressString = "";
+
 // solution = "mound"
 // solution = "muddy"
 
@@ -32,6 +35,8 @@ let solution = wordPool[Math.floor(Math.random()*wordPool.length)];
 
 // solution = "stole"
 // solution = "steel"
+
+// solution = "award"
 
 let solutionLetterCounts = {}
 for (i = 0; i < 5; i++) {
@@ -66,144 +71,6 @@ function keyClicked(letter) {
 		}
 		// loop through guessedWord and update each guess cell with each letter
 		populateGuess();
-}
-
-// Display letters for the current guess on screen every time the user touches a keyboard key
-function populateGuess() {
-	currentGuessElement = guessesArray[guessNumber - 1];
-	guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
-	guessedLetters = guessedWord.length;
-	
-	// Draw each letter
-	for (let i = 0; i < guessedWord.length; i++) {
-		guessLetterArray[i].innerText = guessedWord[i]
-	}
-
-	// Ensure squares are empty if the guess has less than 5 letters
-	for (let i = guessedLetters; i < 5; i++) {
-		guessLetterArray[i].innerText = "";
-	}
-}
-
-function validateGuess() {
-	let guessLength = guessedWord.length;
-
-	if (guessLength < 5) {
-		alert("Too short")
-	} else if (!wordPool.includes(guessedWord)) {
-		alert("Invalid word")
-	} else {
-
-		// Get letter counts for the guess
-		for (i = 0; i < 5; i++) {
-			guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] !== undefined ?? 0) + 1
-		}
-
-		// Get an array of the current guess display cells
-		currentGuessElement = guessesArray[guessNumber - 1];
-		guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
-
-		seenLetters = []
-
-		for (let i = 0; i < 5; i++) {
-			currentLetter = guessedWord[i];
-			// Second time we see the letter in the guess?
-			isSecondInstance = seenLetters.includes(currentLetter);
-			// Need more than 1 of this letter?
-			isMultipleInstanceNeeded = solutionLetterCounts[currentLetter] > 1;
-			// Keyboard key for this letter
-			keyboardKey = document.getElementById(`letter-${currentLetter}`)
-			// Other letters in the guess
-			guessOtherLetters = guessedWord.slice(0, i) + guessedWord.slice(i+1)
-
-			// GREEN
-			if (currentLetter == solution[i]) {
-				if (isMultipleInstanceNeeded) {
-					keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				} else {
-					keyboardKey.setAttribute("style", `background-color: ${greenCorrect}`);
-				}
-				guessLetterArray[i].setAttribute("style", `background-color: ${greenCorrect}`);
-			// GREY
-			} else if (!solution.includes(currentLetter)) {
-				keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
-				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
-			} 
-			// else {
-			// 	keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
-			// 	guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
-			// }
-
-			// seenLetters.push(currentLetter);
-		}
-		
-		// Loop through guess a second time to set YELLOW where needed
-		seenLetters = [];
-		for (let i = 0; i < 5; i++) {
-			currentLetter = guessedWord[i];
-			// Second time we see the letter in the guess?
-			isSecondInstance = seenLetters.includes(currentLetter);
-			// Does the letter appear again in the guess?
-			// isFirstInstance = guessedWord.indexOf(currentLetter, i+1) === -1;
-			isFirstInstance = !seenLetters.includes(currentLetter);
-			// So, do we only have one of this letter in the guess?
-			isMultilpleInstance = isSecondInstance || (isFirstInstance && solution.indexOf(currentLetter, i+1) !== -1);
-			// Need more than 1 of this letter?
-			isMultipleInstanceNeeded = solutionLetterCounts[currentLetter] > 1;
-			// Keyboard key for this letter
-			keyboardKey = document.getElementById(`letter-${currentLetter}`)
-			// Other letters in the guess
-			guessOtherLetters = guessedWord.slice(0, i) + guessedWord.slice(i+1)
-			guessSquare = guessLetterArray[i];
-			
-			console.log(
-				currentLetter,
-				!guessSquare.style.backgroundColor,
-				!isMultipleInstanceNeeded,
-				!keyboardKey.style.backgroundColor,
-				keyboardKey.style.backgroundColor == yellowPresent,
-				!isSecondInstance
-			)
-
-			// Single instance letters that exist in the solution
-			if (
-				solution.includes(currentLetter)
-				&& !guessSquare.style.backgroundColor
-				&& !isMultipleInstanceNeeded
-				&& (
-					!keyboardKey.style.backgroundColor
-					|| (keyboardKey.style.backgroundColor == yellowPresent && !isSecondInstance)
-				)
-			){
-				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
-
-			// Multiple instance letters in the guess where we need just the first instance as YELLOW
-			} else if (
-				solution.includes(currentLetter)
-				&& !guessSquare.style.backgroundColor
-				&& isMultipleInstanceNeeded
-				&& isFirstInstance
-			){
-				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
-
-			// Multiple instance letters in the guess where we need the second instance as YELLOW
-			} else if (
-				solution.includes(currentLetter)
-				&& !guessSquare.style.backgroundColor
-				&& isMultipleInstanceNeeded
-				&& isSecondInstance
-			){
-				guessSquare.setAttribute("style", `background-color: ${yellowPresent}`);
-
-			// Otherwise leave as GREY
-			} else if (!guessSquare.style.backgroundColor) {
-				guessSquare.setAttribute("style", `background-color: ${greyAbsent}`);
-			}
-
-			seenLetters.push(currentLetter);
-		}
 
 		// Prompt user to reset the game if they didn't win in 6 guesses
 		if ((guessNumber === 6) && (guessedWord !== solution)) {
@@ -224,6 +91,126 @@ function validateGuess() {
 				// resetGame()
 				location.reload();
 			}
+		}
+}
+
+// Display letters for the current guess on screen every time the user touches a keyboard key
+function populateGuess() {
+	currentGuessElement = guessesArray[guessNumber - 1];
+	guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
+	guessedLetters = guessedWord.length;
+	
+	// Draw each letter
+	for (let i = 0; i < guessedWord.length; i++) {
+		guessLetterArray[i].innerText = guessedWord[i]
+	}
+
+	// Ensure squares are empty if the guess has less than 5 letters
+	for (let i = guessedLetters; i < 5; i++) {
+		guessLetterArray[i].innerText = "";
+	}
+}
+
+// function updateProgress () {
+
+// }
+
+function validateGuess() {
+	let guessLength = guessedWord.length;
+
+	if (guessLength < 5) {
+		alert("Too short")
+	} else if (!wordPool.includes(guessedWord)) {
+		alert("Invalid word")
+	} else {
+
+		// Get an array of the current guess display cells
+		currentGuessElement = guessesArray[guessNumber - 1];
+		guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
+
+		tempString = "";
+		// Get letter counts for the guess and latest progress
+		for (i = 0; i < 5; i++) {
+			guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] !== undefined ?? 0) + 1
+			
+			// progressString is empty only on first guess, other guesses update progressString accordingly
+			if (guessNumber === 1) {
+				if (guessedWord[i] === solution[i]) {
+					tempString = tempString + guessedWord[i];
+				} 
+				else {
+					tempString = tempString + "_";
+				}
+			} 
+			else {
+				if (guessedWord[i] === solution[i]) {
+					tempString = tempString + guessedWord[i];
+				}  
+				else if (progressString[i] !== "_") {
+					tempString = tempString + progressString[i];
+				}
+				else {
+					tempString = tempString + "_";
+				}
+			}
+		}
+		progressString = tempString
+
+		for (let i = 0; i < 5; i++) {
+			currentLetter = guessedWord[i];
+			// Need more than 1 of this letter?
+			isMultipleInstanceNeeded = solutionLetterCounts[currentLetter] > 1;
+			// Keyboard key for this letter
+			keyboardKey = document.getElementById(`letter-${currentLetter}`)
+			guessOtherLetters = guessedWord.slice(0, i) + guessedWord.slice(i+1)
+			currentLetterCounts = guessLetterCounts[currentLetter]
+			currentLetterCountsNeeded = solutionLetterCounts[currentLetter]
+
+			// GREEN
+			if (currentLetter == solution[i]) {
+				if (isMultipleInstanceNeeded) {
+					keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
+				} else {
+					keyboardKey.setAttribute("style", `background-color: ${greenCorrect}`);
+				}
+				guessLetterArray[i].setAttribute("style", `background-color: ${greenCorrect}`);
+			} 
+			// GREY
+			else if (!solution.includes(currentLetter)) {
+				keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
+				guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
+			}
+			// YELLOW			
+			else {
+				// Need multiple letters and guess includes multiple
+				if (
+					(isMultipleInstanceNeeded) 
+					&& (currentLetterCounts <= currentLetterCountsNeeded)
+				) {
+					console.log(currentLetter, "multiple needed");
+					keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
+					guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`);
+				}
+				// Need one of this letter
+				else if (
+					(!isMultipleInstanceNeeded) 
+					&& (currentLetterCounts <= currentLetterCountsNeeded)
+				) {
+					console.log(currentLetter, "single needed");
+					keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
+					guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`);
+				}
+				// Already have enough
+				else {
+					console.log(currentLetter, "have enough")
+					// Don't change the keyboard colour, but reflect that the letter is not needed in the guess
+					if (!keyboardKey.style.backgroundColor) {
+						keyboardKey.setAttribute("style", `background-color: ${greyAbsent}`);
+					}
+					guessLetterArray[i].setAttribute("style", `background-color: ${greyAbsent}`);
+				}
+			}
+
 		}
 
 		// Reset guess and increment guess count
