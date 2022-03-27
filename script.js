@@ -160,6 +160,8 @@ function populateGuess() {
 // e.g. A__S_ means the users has guessed two letters for ARISE
 function updateProgress () {
 	tempString = "";
+	// Reset count for new guess
+	guessLetterCounts = {}
 	// Get letter counts for the guess and latest progress
 	for (i = 0; i < 5; i++) {
 		guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] !== undefined ?? 0) + 1
