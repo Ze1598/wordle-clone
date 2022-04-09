@@ -41,6 +41,7 @@ progressString = "";
 // solution = "award"
 
 // solution = "enema"
+// solution = "eerie"
 
 let solutionLetterCounts = {}
 for (i = 0; i < 5; i++) {
@@ -176,7 +177,7 @@ function updateProgress () {
 	guessLetterCounts = {}
 	// Get letter counts for the guess and latest progress
 	for (i = 0; i < 5; i++) {
-		guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] !== undefined ?? 0) + 1
+		guessLetterCounts[guessedWord[i]] = (guessLetterCounts[guessedWord[i]] === undefined ? 0 : guessLetterCounts[guessedWord[i]]) + 1
 		
 		// progressString is empty only on first guess, other guesses update progressString accordingly
 		if (guessNumber === 1) {
@@ -227,6 +228,8 @@ function validateGuess() {
 		currentLetterCountsCorrect = progressString.split(currentLetter).length - 1
 		// Compare the count of correct guesses for the current letter with the count needed for the solution 
 		needMoreOfCurrentLetter = currentLetterCountsNeeded > currentLetterCountsCorrect
+		// How many times was this letter seen already
+		countSeen = seenLetters.filter(x => x === currentLetter).length
 
 		// Count how many more of this letter there are in the guess
 		currentLetterCountInRestOfGuess = 0
@@ -238,6 +241,8 @@ function validateGuess() {
 				currentLetterCountInRestOfGuess++
 			}
 		}
+
+		console.log(currentLetter)
 
 		// GREEN
 		if (currentLetter == solution[i]) {
@@ -266,7 +271,10 @@ function validateGuess() {
 			// Need multiple letters and guess includes multiple
 			if (
 				(isMultipleInstanceNeeded) 
-				&& (currentLetterCounts <= currentLetterCountsNeeded)
+				&& (
+					(currentLetterCounts <= currentLetterCountsNeeded)
+					|| (countSeen <= (currentLetterCountsNeeded - currentLetterCountsCorrect) )
+				)
 			) {
 				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
 				keyboardKey.classList.add("present-letter");
