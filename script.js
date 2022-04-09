@@ -95,11 +95,12 @@ function resetGame() {
 
 // Handle physical keyboard click and pass the value to the key handling function
 function physicalKeyClicked(e) {
-	let keyCode = e.which;
+	let keyNumCode = e.which;
+	let keyText = e.code;
 	if (
-		(keyCode >= 65 && keyCode <= 90)
-		|| e.code === "Backspace"
-		|| e.code === "Enter"
+		(keyNumCode >= 65 && keyNumCode <= 90)
+		|| keyText === "Backspace"
+		|| keyText === "Enter"
 	) {
 		keyClicked(e.key);
 	}
