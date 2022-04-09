@@ -39,6 +39,7 @@ progressString = "";
 // solution = "steel"
 
 // solution = "award"
+// solution = "awoke"
 
 // solution = "enema"
 // solution = "eerie"
@@ -47,6 +48,7 @@ let solutionLetterCounts = {}
 for (i = 0; i < 5; i++) {
 	// ?? is the nullish operator aka coalesce
 	solutionLetterCounts[solution[i]] = (solutionLetterCounts[solution[i]] !== undefined ?? 0) + 1
+	// solutionLetterCounts[solution[i]] = (solutionLetterCounts[guessedWord[i]] === undefined ? 0 : solutionLetterCounts[guessedWord[i]]) + 1
 }
 
 // https://github.com/apvarun/toastify-js
@@ -298,7 +300,7 @@ function validateGuess() {
 			}
 			// Tried already correct letter in a new position, then make only the board yellow
 			else if (
-				(currentLetterCountsCorrect >= currentLetterCountsNeeded)
+				(currentLetterCountsCorrect === currentLetterCountsNeeded)
 				&& (
 					(currentLetterCountInRestOfGuess < currentLetterCountsCorrect)
 					&& (!seenLetters.includes(currentLetter))
