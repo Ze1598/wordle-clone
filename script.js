@@ -5,6 +5,7 @@ const keyboard = document.getElementById("keyboard");
 const pageHeight = document.documentElement.clientHeight;
 const pageWidth = document.documentElement.clientWidth;
 const guessesArray = document.getElementsByClassName("guess");
+window.addEventListener("keydown", physicalKeyClicked);
 
 const victoryEasterEgg = new Audio("victory.mp3");
 
@@ -92,49 +93,60 @@ function resetGame() {
 	location.reload();
 }
 
+// Handle physical keyboard click and pass the value to the key handling function
+function physicalKeyClicked(e) {
+	console.log(e.key)
+	let keyCode = e.which;
+	if (
+		(keyCode >= 65 && keyCode <= 90)
+		|| e.code === "Backspace"
+		|| e.code === "Enter"
+	) {
+		keyClicked(e.key);
+	}
+}
+
 // On keyboard key click
 function keyClicked(letter) {
-		// Delete (last) letter
-		if (letter === "Backspace") {
-			if (guessedWord.length > 0) {
-				guessedWord = guessedWord.slice(0, -1);
+	// Delete (last) letter
+	if (letter === "Backspace") {
+		if (guessedWord.length > 0) {
+			guessedWord = guessedWord.slice(0, -1);
+		}
+	}
+	// Append new letter
+	else if (
+		(guessedWord.length < 5)
+		&& (letter !== "Enter")
+	) {
+		guessedWord += letter.toLowerCase();
+	}
+	// loop through guessedWord and update each guess cell with each letter
+	populateGuess();
+
+	// Guess submitted
+	if (letter === "Enter") {
+		let guessLength = guessedWord.length;
+		if (guessLength < 5) {		  
+			shortGuessToast.showToast();
+	
+		} 
+		else if (!wordPool.includes(guessedWord)) {
+			invalidGuessToast.showToast();
+		} 
+		else {
+			validateGuess()
+			if (
+				(guessNumber >= 6)
+				|| (guessedWord === solution)
+			) {
+				gameEnd();
 			}
+			// Reset guess and increment guess count
+			guessedWord = "";
+			guessNumber += 1;
 		}
-		// Append new letter
-		else if (
-			(guessedWord.length < 5)
-			&& (letter !== "Enter")
-		) {
-			guessedWord += letter.toLowerCase();
-		}
-		// loop through guessedWord and update each guess cell with each letter
-		populateGuess();
-
-		// Guess submitted
-		if (letter === "Enter") {
-			let guessLength = guessedWord.length;
-			if (guessLength < 5) {		  
-				shortGuessToast.showToast();
-		
-			} 
-			else if (!wordPool.includes(guessedWord)) {
-				invalidGuessToast.showToast();
-			} 
-			else {
-				validateGuess()
-				if (
-					(guessNumber >= 6)
-					|| (guessedWord === solution)
-				) {
-					gameEnd();
-				}
-				// Reset guess and increment guess count
-				guessedWord = "";
-				guessNumber += 1;
-			}
-
-		}
-
+	}
 }
 
 
