@@ -209,6 +209,7 @@ function validateGuess() {
 	currentGuessElement = guessesArray[guessNumber - 1];
 	guessLetterArray = currentGuessElement.getElementsByClassName("guess-letter");
 	updateProgress()
+	let seenLetters = []
 
 	// Change display colours for keyboard and guess board
 	for (let i = 0; i < 5; i++) {
@@ -220,8 +221,23 @@ function validateGuess() {
 		guessOtherLetters = guessedWord.slice(0, i) + guessedWord.slice(i+1)
 		// Counts of the current letter in the guess
 		currentLetterCounts = guessLetterCounts[currentLetter]
-		// Counts needed for the current letter in teh solution
+		// Counts needed for the current letter in the solution
 		currentLetterCountsNeeded = solutionLetterCounts[currentLetter]
+		// Correct counts for current letter so far
+		currentLetterCountsCorrect = progressString.split(currentLetter).length - 1
+		// Compare the count of correct guesses for the current letter with the count needed for the solution 
+		needMoreOfCurrentLetter = currentLetterCountsNeeded > currentLetterCountsCorrect
+
+		// Count how many more of this letter there are in the guess
+		currentLetterCountInRestOfGuess = 0
+		for (j = 0; j < 5; j++) {
+			if (
+				(i !== j) 
+				&& (guessedWord[j] === currentLetter)
+			) {
+				currentLetterCountInRestOfGuess++
+			}
+		}
 
 		// GREEN
 		if (currentLetter == solution[i]) {
@@ -259,12 +275,27 @@ function validateGuess() {
 			}
 			// Need one of this letter
 			else if (
-				(!isMultipleInstanceNeeded) 
-				&& (currentLetterCounts <= currentLetterCountsNeeded)
+				(currentLetterCountsCorrect < currentLetterCountsNeeded)
+				&& (
+					(currentLetterCountInRestOfGuess < currentLetterCounts)
+					&& (!seenLetters.includes(currentLetter))
+				)
 			) {
-				keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
-				keyboardKey.classList.add("present-letter");
+				if (!keyboardKey.style.backgroundColor) {
+					keyboardKey.setAttribute("style", `background-color: ${yellowPresent}`);
+					keyboardKey.classList.add("present-letter");
+				}
 				// guessLetterArray[i].setAttribute("style", `background-color: ${yellowPresent}`);
+				guessLetterArray[i].classList.add("present-letter");
+			}
+			// Tried already correct letter in a new position, then make only the board yellow
+			else if (
+				(currentLetterCountsCorrect >= currentLetterCountsNeeded)
+				&& (
+					(currentLetterCountInRestOfGuess < currentLetterCountsCorrect)
+					&& (!seenLetters.includes(currentLetter))
+				)
+			) {
 				guessLetterArray[i].classList.add("present-letter");
 			}
 			// Already have enough
@@ -278,6 +309,8 @@ function validateGuess() {
 				guessLetterArray[i].classList.add("absent-letter");
 			}
 		}
+
+		seenLetters.push(currentLetter)
 
 	}
 }
