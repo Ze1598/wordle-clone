@@ -95,7 +95,6 @@ function resetGame() {
 
 // Handle physical keyboard click and pass the value to the key handling function
 function physicalKeyClicked(e) {
-	console.log(e.key)
 	let keyCode = e.which;
 	if (
 		(keyCode >= 65 && keyCode <= 90)
